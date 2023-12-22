@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "968471835515",
+    "project_id": "kesehatan-mental-anak-remaja",
+    "storage_bucket": "kesehatan-mental-anak-remaja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968471835515:android:695162148225288e81c3de",
+        "android_client_info": {
+          "package_name": "com.example.aplikasi_kesehatan_mental_anak_remaja"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC67ScuUAcDXyZv2FPv8O15GWrOZXtpV9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
