@@ -1,22 +1,12 @@
+import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   static const String id = "profile_screen";
 
-  @override
-  _ProfileScreenScreenState createState() => _ProfileScreenScreenState();
-}
-
-class _ProfileScreenScreenState extends State<ProfileScreen> {
-   
-  
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  UserGuardsController userGuardsController = Get.put(UserGuardsController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +17,7 @@ class _ProfileScreenScreenState extends State<ProfileScreen> {
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
                 colors: [
-              Color.fromRGBO(77, 67, 187, 1),
+              Color.fromRGBO(255, 253, 208, 1),
               Color.fromRGBO(255, 255, 255, 1),
             ])),
         child: ListView(
@@ -44,24 +34,12 @@ class _ProfileScreenScreenState extends State<ProfileScreen> {
                           child: Row(children: [
                             IconButton(
                               iconSize: 40,
-                              color: Colors.white,
+                              color: Colors.black,
                               icon: Icon(Icons.arrow_back),
                               onPressed: () => Get.back()
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(8),
-                              child:
-                                  Image.asset('assets/images/icon-small.png'),
-                            ),
                           ])),
-                      Padding(
-                          padding: EdgeInsets.all(30),
-                          child: Text('Profile',
-                              style: TextStyle(
-                              fontFamily: 'MochiyPopOne',
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold))),
+
                     ]),
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Column(children: [
@@ -75,11 +53,11 @@ class _ProfileScreenScreenState extends State<ProfileScreen> {
                           backgroundColor: Colors.transparent,
                           child: const Text(''),
                         )),
-                    Text('Esa Unggul',
+                    Text(userGuardsController.user.currentUser!.displayName.toString(),
                         style: TextStyle(
                               fontFamily: 'MochiyPopOne',
                             fontSize: 15,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold))
                   ]),
                   SizedBox(height: 50),
@@ -87,7 +65,7 @@ class _ProfileScreenScreenState extends State<ProfileScreen> {
                       padding: EdgeInsets.all(5),
                       child: TextFormField(
                         readOnly: true,
-                        initialValue: "Test",
+                        initialValue: userGuardsController.user.currentUser!.displayName.toString(),
                         decoration: InputDecoration(
                           labelText: 'username',
                           filled: true,
@@ -101,6 +79,7 @@ class _ProfileScreenScreenState extends State<ProfileScreen> {
                       padding: EdgeInsets.all(5),
                       child: TextFormField(
                         readOnly: true,
+                        initialValue: userGuardsController.user.currentUser!.email,
                         decoration: InputDecoration(
                           labelText: 'Email',
                           filled: true,
@@ -109,20 +88,6 @@ class _ProfileScreenScreenState extends State<ProfileScreen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.all(5),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          filled: true,
-                          fillColor: Color.fromRGBO(255, 220, 220, 1),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        readOnly: true,
-                        obscureText: true,
                       )),
                 ])
               ]),

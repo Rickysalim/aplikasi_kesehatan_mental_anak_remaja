@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/diagnose_repository_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Diagnose.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,12 @@ class DiagnoseController extends GetxController {
               padding: EdgeInsets.all(10),
               child: Text('Tidak boleh kosong',
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.red))));
+                  style: TextStyle(
+                  fontFamily: 'MochiyPopOne',
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.red,
+                ))));
     }
     return Text('');
   }
@@ -52,6 +56,7 @@ class DiagnoseController extends GetxController {
   void abortAllSelectionOptions() {
     questions.clear();
     mapSelectedOptions.clear();
+    resultTest.value = 0.0;
   }
 
   void showResultTest() {
@@ -62,16 +67,6 @@ class DiagnoseController extends GetxController {
     update();
   }
 
-  Widget showWidgetResultTest(double value) {
-     if(value >= 0.0 && value <= 30.0) {
-       return Text('Aman');
-     } else if (value >= 31.0 && value <= 60.0) {
-       return Text('Baik');
-     } else if (value >= 61.0 && value <= 100.0) {
-       return Text('Stress');
-     }
-     return Text('Unknow');
-  }
 
   final diagnoseRepositoryController = Get.put(DiagnoseRepositoryController());
 

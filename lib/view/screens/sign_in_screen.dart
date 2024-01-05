@@ -27,12 +27,12 @@ class SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color.fromRGBO(77, 67, 187, 1),
+          color: Colors.white,
         ),
         child: ListView(
           children: <Widget>[
-            Image.asset('assets/images/icon.png',
-                width: 150, height: 150), // Ganti dengan gambar yang diinginkan
+            Image.asset('assets/images/people.jpg',
+                width: 300, height: 300), 
             Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -116,7 +116,7 @@ class SignInScreenState extends State<SignInScreen> {
                             Text('Need to create an account? ',
                                 style: TextStyle(
                               fontFamily: 'MochiyPopOne',
-                                    color: Colors.white)),
+                                    color: Colors.black)),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   primary: Color.fromRGBO(5, 15, 47, 1),

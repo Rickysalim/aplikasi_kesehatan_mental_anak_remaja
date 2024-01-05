@@ -1,9 +1,9 @@
-import 'dart:async';
-
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/video_repository_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock/wakelock.dart';
 
 class VideoController extends GetxController {
   static VideoController get instance => Get.find();
@@ -12,6 +12,9 @@ class VideoController extends GetxController {
   var isVideoPlaying = false.obs;
   var duration = Duration.zero.obs;
   var position = Duration.zero.obs;
+  var setFullScreen = false.obs;
+  var setLandscapeOrPortrait = false.obs;
+  var onShowPosition = false.obs;
 
   late VideoPlayerController videoPlayerController;
   late Future<void> initializeVideoPlayerFuture;
@@ -22,7 +25,9 @@ class VideoController extends GetxController {
   }
 
   void onClickEvent() {
-    videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
+    videoPlayerController.value.isPlaying
+        ? videoPlayerController.pause()
+        : videoPlayerController.play();
   }
 
   void slider(double value) {
@@ -39,10 +44,9 @@ class VideoController extends GetxController {
     super.onInit();
     videoPlayerController =
         VideoPlayerController.networkUrl(Uri.parse(urlVideo.value));
-    initializeVideoPlayerFuture =
-        videoPlayerController.initialize();
+    initializeVideoPlayerFuture = videoPlayerController.initialize();
     videoPlayerController.addListener(() {
-      if(videoPlayerController.value.isInitialized) {
+      if (videoPlayerController.value.isInitialized) {
         duration.value = videoPlayerController.value.duration;
         position.value = videoPlayerController.value.position;
         isVideoPlaying.value = videoPlayerController.value.isPlaying;
@@ -51,8 +55,13 @@ class VideoController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() async {
     videoPlayerController.dispose();
+    setFullScreen.value = false;
+    onShowPosition.value = false;
+    setLandscapeOrPortrait.value = false;
+    await SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    await Wakelock.disable();
   }
 
   final videoRepositoryController = Get.put(VideoRepositoryController());

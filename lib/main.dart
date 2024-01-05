@@ -13,13 +13,13 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  runApp(const MyApp());
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ).then((value) { 
+  ).then((value) {
     Get.put(UserGuardsController());
   });
-
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,14 +28,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
-          backgroundColor: Color.fromRGBO(77, 67, 187, 1),
+          backgroundColor: Colors.white,
           body: Align(
               alignment: Alignment.center,
-              child: Text('LOADING',
-                  style: TextStyle(
-                      fontFamily: 'Barriecito',
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontSize: 48)))),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/people.jpg',
+                        width: 300, height: 300),
+                    CircularProgressIndicator()
+                  ]))),
     );
   }
 }

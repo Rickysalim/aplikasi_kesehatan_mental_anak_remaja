@@ -7,9 +7,8 @@ class DiagnoseRepositoryController extends GetxController {
 
   final diagnoseRepo = FirebaseFirestore.instance.collection('Diagnose');
 
-  
-
   Stream<List<Diagnose>> getAllDiagnose() => diagnoseRepo.snapshots().map((e) {
         return e.docs.map((e) => Diagnose.fromSnapshot(e)).toList();
       });
+      
 }

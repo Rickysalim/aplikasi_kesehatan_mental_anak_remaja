@@ -5,26 +5,15 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class CrisisSupportScreen extends StatefulWidget {
+class CrisisSupportScreen extends StatelessWidget {
   static const String id = "crisis_support_screen";
 
-  @override
-  _CrisisSupportState createState() => _CrisisSupportState();
-}
-
-class _CrisisSupportState extends State<CrisisSupportScreen> {
   CrisisSupportController crisisSupportController =
       Get.put(CrisisSupportController());
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(77, 67, 187, 1),
-          title: Text('Our Emergency Call Support'),
-          centerTitle: true,
-        ),
         body: StreamBuilder<List<CrisisSupport>>(
             stream: crisisSupportController.getAllCrisisSupport(),
             builder: (context, snapshot) {
@@ -36,7 +25,7 @@ class _CrisisSupportState extends State<CrisisSupportScreen> {
                           begin: Alignment.topRight,
                           end: Alignment.bottomLeft,
                           colors: [
-                        Color.fromRGBO(77, 67, 187, 1),
+                        Color.fromRGBO(255, 253, 208, 1),
                         Color.fromRGBO(255, 255, 255, 1),
                       ])),
                   child: ListView.builder(
@@ -51,17 +40,6 @@ class _CrisisSupportState extends State<CrisisSupportScreen> {
                               borderRadius: BorderRadius.circular(20.0)),
                           child: Column(
                             children: [
-                              Container(
-                                  width: 50,
-                                  height: 50,
-                                  padding: EdgeInsets.all(10),
-                                  child: CircleAvatar(
-                                      backgroundColor: Colors.brown.shade800,
-                                      child: Text('',
-                                          style: TextStyle(
-                                              fontFamily: 'MochiyPopOne',
-                                              fontSize: 10,
-                                              color: Colors.white)))),
                               Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text(
