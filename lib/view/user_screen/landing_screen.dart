@@ -1,18 +1,17 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/audio_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/timer_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/video_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Music.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/breathing_exercise_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/crisis_support_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/diagnose_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/music_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/setting_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/video_watch_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/breathing_exercise_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/diagnose_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/music_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/search_music_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/search_video_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/setting_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/video_watch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LandingScreen extends StatelessWidget {
   static const String id = "landing_screen";
@@ -93,6 +92,15 @@ class LandingScreen extends StatelessWidget {
                                   style: TextStyle(
                                       fontFamily: 'OdorMeanChey',
                                       fontWeight: FontWeight.bold)),
+                              TextButton(
+                                  onPressed: () => Get.to(SearchVideoScreen()),
+                                  child: Text(
+                                    'See All',
+                                    style: TextStyle(
+                                        fontFamily: 'OdorMeanChey',
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(221, 56, 56, 1)),
+                                  ))
                             ]),
                       ),
                     ],
@@ -193,6 +201,15 @@ class LandingScreen extends StatelessWidget {
                                   style: TextStyle(
                                       fontFamily: 'OdorMeanChey',
                                       fontWeight: FontWeight.bold)),
+                              TextButton(
+                                  onPressed: () => Get.to(SearchMusicScreen()),
+                                  child: Text(
+                                    'See All',
+                                    style: TextStyle(
+                                        fontFamily: 'OdorMeanChey',
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(221, 56, 56, 1)),
+                                  ))
                             ]),
                       ),
                     ],

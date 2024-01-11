@@ -42,24 +42,6 @@ class ProfileScreen extends StatelessWidget {
 
                     ]),
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Column(children: [
-                    SizedBox(height: 50),
-                    Container(
-                        height: 200,
-                        width: 200,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/gg_profile.png'),
-                          backgroundColor: Colors.transparent,
-                          child: const Text(''),
-                        )),
-                    Text(userGuardsController.user.currentUser!.displayName.toString(),
-                        style: TextStyle(
-                              fontFamily: 'MochiyPopOne',
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold))
-                  ]),
                   SizedBox(height: 50),
                   Padding(
                       padding: EdgeInsets.all(5),
@@ -82,6 +64,20 @@ class ProfileScreen extends StatelessWidget {
                         initialValue: userGuardsController.user.currentUser!.email,
                         decoration: InputDecoration(
                           labelText: 'Email',
+                          filled: true,
+                          fillColor: Color.fromRGBO(255, 220, 220, 1),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.all(5),
+                      child: TextFormField(
+                        readOnly: true,
+                        initialValue: userGuardsController.user.currentUser!.uid,
+                        decoration: InputDecoration(
+                          labelText: 'User UID',
                           filled: true,
                           fillColor: Color.fromRGBO(255, 220, 220, 1),
                           border: OutlineInputBorder(

@@ -1,15 +1,12 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/sign_in_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/sign_in_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/email_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   static const String id = "sign_up_screen";
-  @override
-  SignUpScreenState createState() => SignUpScreenState();
-}
-
-class SignUpScreenState extends State<SignUpScreen> {
+ 
   final _formKey = GlobalKey<FormState>();
 
   AuthController signUpController = Get.put(AuthController());
@@ -23,7 +20,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             ),
             child: ListView(children: <Widget>[
               Image.asset('assets/images/people.jpg',
-                width: 300, height: 300), // Ganti dengan gambar yang diinginkan
+                width: 300, height: 300), 
               Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -128,7 +125,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                                   color: Colors.white)),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              await signUpController.register();
+                              await signUpController.register().then((value) => {
+                                Get.to(EmailVerificationScreen())
+                              });
                             }
                           },
                           style: ElevatedButton.styleFrom(

@@ -78,5 +78,14 @@ class MusicController extends GetxController {
 
   final musicRepositoryController = Get.put(MusicRepositoryController());
 
+  RxString musicName = RxString("");
+
+  void setSearch(String value) {
+    musicName.value = value;
+    update();
+  }
+
+  Stream<List<Music>> searchMusic() => musicRepositoryController.searchMusic(musicName.value);
+
   Stream<List<Music>> getAllMusic() => musicRepositoryController.getAllMusic();
 }

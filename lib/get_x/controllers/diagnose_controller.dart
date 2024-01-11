@@ -70,6 +70,7 @@ class DiagnoseController extends GetxController {
 
   final diagnoseRepositoryController = Get.put(DiagnoseRepositoryController());
 
+
   Stream<List<Diagnose>> getAllDiagnose() {
     return diagnoseRepositoryController.getAllDiagnose();
   }

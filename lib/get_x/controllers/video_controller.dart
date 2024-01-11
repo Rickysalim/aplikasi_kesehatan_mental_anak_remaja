@@ -8,6 +8,8 @@ import 'package:wakelock/wakelock.dart';
 class VideoController extends GetxController {
   static VideoController get instance => Get.find();
 
+ 
+
   var urlVideo = "".obs;
   var isVideoPlaying = false.obs;
   var duration = Duration.zero.obs;
@@ -65,6 +67,15 @@ class VideoController extends GetxController {
   }
 
   final videoRepositoryController = Get.put(VideoRepositoryController());
+
+   RxString videoTitle = RxString("");
+
+  void setSearch(String value) {
+    videoTitle.value = value;
+    update();
+  }
+
+  Stream<List<Video>> searchVideo() => videoRepositoryController.searchVideo(videoTitle.value);
 
   Stream<List<Video>> getAllVideo() => videoRepositoryController.getAllVideo();
 }

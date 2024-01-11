@@ -85,9 +85,7 @@ class VideoWatchScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 5)),
                                   Text(
                                       controller.formatTimeVideo(
-                                          (controller.duration.value -
-                                                  controller.position.value)
-                                              .inSeconds),
+                                          (controller.duration.value - controller.position.value).inSeconds),
                                       style: TextStyle(fontSize: 5)),
                                   Slider(
                                       activeColor: Colors.red,

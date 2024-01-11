@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class MusicScreen extends StatelessWidget {
   MusicScreen(this.music);
+  
   Music? music;
 
   @override
@@ -33,7 +34,8 @@ class MusicScreen extends StatelessWidget {
                                       Object exception,
                                       StackTrace? stackTrace) {
                                     return Center(
-                                      child: Image.asset("assets/images/default-cover-music.jpg"),
+                                      child: Image.asset(
+                                          "assets/images/default-cover-music.jpg"),
                                     );
                                   },
                                 ),
@@ -54,13 +56,14 @@ class MusicScreen extends StatelessWidget {
                                   Text(controller.formatTime(
                                       controller.position.value.inSeconds)),
                                   Text(controller.formatTime(
-                                      controller.duration.value.inSeconds -
-                                          controller.position.value.inSeconds))
+                                      (controller.duration.value -
+                                              controller.position.value)
+                                          .inSeconds))
                                 ])),
                         Slider(
-                          min: 0,
-                          max: controller.duration.value.inSeconds.toDouble(),
                           value: controller.position.value.inSeconds.toDouble(),
+                          min: 0.0,
+                          max: controller.duration.value.inSeconds.toDouble(),
                           onChanged: (value) async {
                             controller.slider(value);
                           },

@@ -1,27 +1,18 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/sign_up_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/forgot_password_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/sign_up_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   static const String id = "sign_in_screen";
 
-  @override
-  SignInScreenState createState() => SignInScreenState();
-}
-
-class SignInScreenState extends State<SignInScreen> {
   AuthController authController = Get.put(AuthController());
-  
+
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  AuthController signInController = Get.put(AuthController());
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +22,14 @@ class SignInScreenState extends State<SignInScreen> {
         ),
         child: ListView(
           children: <Widget>[
-            Image.asset('assets/images/people.jpg',
-                width: 300, height: 300), 
+            Image.asset('assets/images/people.jpg', width: 300, height: 300),
             Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text('Sign In',
                         style: TextStyle(
-                              fontFamily: 'MochiyPopOne',
+                          fontFamily: 'MochiyPopOne',
                           fontSize: 32,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
@@ -89,11 +79,33 @@ class SignInScreenState extends State<SignInScreen> {
                       obscureText: true,
                     )),
                 Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          
+                       Get.to(ForgotPasswordScreen());
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontFamily: 'MochiyPopOne',
+                            color: Colors.black,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
                     padding: EdgeInsets.all(20),
                     child: ElevatedButton(
                       child: Text('Sign In',
                           style: TextStyle(
-                              fontFamily: 'MochiyPopOne',color: Colors.white)),
+                              fontFamily: 'MochiyPopOne', color: Colors.white)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await authController.login();
@@ -108,31 +120,31 @@ class SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     )),
-                    Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Need to create an account? ',
-                                style: TextStyle(
-                              fontFamily: 'MochiyPopOne',
-                                    color: Colors.black)),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color.fromRGBO(5, 15, 47, 1),
-                                  onPrimary: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  )),
-                              onPressed: () => Get.to(SignUpScreen()),
-                              child: Text('Sign Up',
-                                  style: TextStyle(
-                              fontFamily: 'MochiyPopOne',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                          ]),
-                    )
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Need to create an account? ',
+                            style: TextStyle(
+                                fontFamily: 'MochiyPopOne',
+                                color: Colors.black)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Color.fromRGBO(5, 15, 47, 1),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              )),
+                          onPressed: () => Get.to(SignUpScreen()),
+                          child: Text('Sign Up',
+                              style: TextStyle(
+                                  fontFamily: 'MochiyPopOne',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ]),
+                )
               ]),
             ),
           ],

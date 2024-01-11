@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/diagnose_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Diagnose.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/diagnose_result_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/diagnose_result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
@@ -75,7 +75,8 @@ class DiagnoseScreen extends StatelessWidget {
                             Color.fromRGBO(255, 253, 208, 1),
                             Color.fromRGBO(255, 255, 255, 1),
                           ])),
-                      child: StreamBuilder<List<Diagnose>>(
+                      child: 
+                      StreamBuilder<List<Diagnose>>(
                           stream: controller.getAllDiagnose(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {

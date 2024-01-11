@@ -13,11 +13,7 @@ class AuthController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
-
-  /* 
-    final phoneNumber = TextEditingController();
-    final photoUrl = TextEditingController();
-  */
+  
 
   void resetText() {
 
@@ -26,7 +22,6 @@ class AuthController extends GetxController {
     password.clear();
     confirmPassword.clear();
   }
-
 
   Future<void> register() async {
     try{

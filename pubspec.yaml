@@ -49,6 +49,8 @@ dependencies:
   timeago: ^3.6.0
   wakelock: ^0.6.2
   audioplayers: ^5.2.1
+  file_picker: ^5.2.10
+  firebase_storage: ^11.6.0
 
 dev_dependencies:
   flutter_test:

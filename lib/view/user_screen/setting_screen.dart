@@ -1,8 +1,8 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/CrisisSupport.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/crisis_support_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/diagnose_history_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/profile_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/crisis_support_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/diagnose_history_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

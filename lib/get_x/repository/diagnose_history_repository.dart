@@ -2,7 +2,7 @@ import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/diagnose
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/rule_based_repository_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/models/DiagnoseHistory.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/screens/landing_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/landing_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
