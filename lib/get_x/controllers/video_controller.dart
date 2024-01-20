@@ -1,5 +1,6 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/video_repository_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/video_watch_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -8,67 +9,76 @@ import 'package:wakelock/wakelock.dart';
 class VideoController extends GetxController {
   static VideoController get instance => Get.find();
 
- 
-
-  var urlVideo = "".obs;
-  var isVideoPlaying = false.obs;
-  var duration = Duration.zero.obs;
-  var position = Duration.zero.obs;
-  var setFullScreen = false.obs;
-  var setLandscapeOrPortrait = false.obs;
-  var onShowPosition = false.obs;
+  RxString urlVideo = RxString("");
+  RxBool isVideoPlaying = RxBool(false);
+  Rx<Duration> duration = Rx<Duration>(Duration.zero);
+  Rx<Duration> position = Rx<Duration>(Duration.zero);
+  RxBool  setFullScreen = RxBool(false);
+  RxBool setLandscapeOrPortrait = RxBool(false);
+  RxBool onShowPosition = RxBool(false);
 
   late VideoPlayerController videoPlayerController;
   late Future<void> initializeVideoPlayerFuture;
 
-  void setUrlVideo(String url) {
-    urlVideo.value = url;
-    onInit();
+  void setFullScreenVideo() {
+    setFullScreen.value = !setFullScreen.value;
+    update();
+  }
+
+  void setVideo(Video video) {
+     videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(video.videoUrl));
+    initializeVideoPlayerFuture = videoPlayerController.initialize();
+    videoPlayerController.addListener(() {
+      if (videoPlayerController.value.hasError) {
+        Get.back();
+      }
+      if (videoPlayerController.value.isInitialized) {
+        duration.value = videoPlayerController.value.duration;
+        position.value = videoPlayerController.value.position;
+        isVideoPlaying.value = videoPlayerController.value.isPlaying;
+        Get.to(VideoWatchScreen(video));
+      }
+    });
+    update();
   }
 
   void onClickEvent() {
     videoPlayerController.value.isPlaying
         ? videoPlayerController.pause()
         : videoPlayerController.play();
+    update();
   }
 
   void slider(double value) {
     videoPlayerController.seekTo(Duration(seconds: value.toInt()));
     videoPlayerController.play();
+    update();
   }
 
   String formatTimeVideo(int seconds) {
     return '${(Duration(seconds: seconds))}'.split('.')[0].padLeft(8, '0');
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(urlVideo.value));
-    initializeVideoPlayerFuture = videoPlayerController.initialize();
-    videoPlayerController.addListener(() {
-      if (videoPlayerController.value.isInitialized) {
-        duration.value = videoPlayerController.value.duration;
-        position.value = videoPlayerController.value.position;
-        isVideoPlaying.value = videoPlayerController.value.isPlaying;
-      }
-    });
-  }
-
-  @override
-  void onClose() async {
-    videoPlayerController.dispose();
+  Future<void> disposeVideoPlayer() async {
     setFullScreen.value = false;
     onShowPosition.value = false;
     setLandscapeOrPortrait.value = false;
+    videoTitle.value = "";
+    await videoPlayerController.dispose();
     await SystemChrome.setPreferredOrientations(DeviceOrientation.values);
     await Wakelock.disable();
   }
+  
 
   final videoRepositoryController = Get.put(VideoRepositoryController());
 
-   RxString videoTitle = RxString("");
+  RxString videoTitle = RxString("");
+
+  void clearSearch() {
+    videoTitle.value = "";
+    update();
+  }
 
   void setSearch(String value) {
     videoTitle.value = value;

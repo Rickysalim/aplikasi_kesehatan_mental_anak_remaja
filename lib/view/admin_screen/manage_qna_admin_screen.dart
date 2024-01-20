@@ -1,10 +1,12 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/diagnose_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/qa_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Diagnose.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/diagnose.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class QuestionAnswerAdminScreen extends StatelessWidget {
+class ManageQuestionAndAnswerAdminScreen extends StatelessWidget {
+   ManageQuestionAndAnswerAdminScreen({super.key});
+
   final qaController = QaController();
 
   final diagnoseController = DiagnoseController();
@@ -22,18 +24,18 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
               },
               child: Scaffold(
                 appBar: AppBar(
-                  title: Text('Question Answer'),
+                  title: const Text('Question Answer'),
                   leading: Builder(builder: (BuildContext context) {
                     return IconButton(
                         onPressed: () {
                           controller.onClose();
                           Get.back();
                         },
-                        icon: Icon(Icons.arrow_back));
+                        icon: const Icon(Icons.arrow_back));
                   }),
                 ),
                 body: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: controller.formKey.value,
                     child: Column(
@@ -41,40 +43,44 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                       children: <Widget>[
                         TextFormField(
                           controller: controller.testTitleController.value,
-                          decoration: InputDecoration(
-                            labelText: 'Test Title',
+                          decoration: const InputDecoration(
+                            labelText: 'Symptom Code',
                             border: OutlineInputBorder(),
                           ),
                           // initialValue: controller.testQaData['test_title'].toString(),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter symptom code';
                             }
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                            onPressed: () {
-                              controller.addTestQa();
-                            },
-                            child: Text(controller.isEdit.value
-                                ? 'Update QA'
-                                : 'Add QA')),
-                        controller.testQa.value.isNotEmpty
+                        const SizedBox(height: 20),
+                        Align(
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  controller.addTestQa();
+                                },
+                                child: const Text(
+                                    'Add Question Answer For Certain Factor User'))),
+                        controller.testQa.isNotEmpty
                             ? Expanded(
                                 child: ListView.builder(
-                                itemCount: controller.testQa.value.length,
+                                itemCount: controller.testQa.length,
                                 itemBuilder: (context, index) {
-                                  while (controller.formKeys.value.length <=
-                                      index) {
-                                    controller.formKeys.value
+                                  while (controller.formKeys.length <= index) {
+                                    controller.formKeys
                                         .add(GlobalKey<FormState>());
                                   }
-                                  while (
-                                      controller.formSecondKeys.value.length <=
-                                          index) {
-                                    controller.formSecondKeys.value
+                                  while (controller.formSecondKeys.length <=
+                                      index) {
+                                    controller.formSecondKeys
+                                        .add(GlobalKey<FormState>());
+                                  }
+                                  while (controller.formThirdKeys.length <=
+                                      index) {
+                                    controller.formThirdKeys
                                         .add(GlobalKey<FormState>());
                                   }
                                   return Form(
@@ -87,32 +93,35 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                                padding: EdgeInsets.all(8),
+                                                padding:
+                                                    const EdgeInsets.all(8),
                                                 child: ElevatedButton(
-                                                    child: Text('Delete'),
+                                                    child: const Text('Delete'),
                                                     onPressed: () {
                                                       controller
                                                           .removeTestQa(index);
                                                     })),
                                             Padding(
-                                                padding: EdgeInsets.all(8),
+                                                padding:
+                                                    const EdgeInsets.all(8),
                                                 child: Text(
-                                                    'Question: ${controller.testQa.value[index]['question']}')),
+                                                    'Question: ${controller.testQa[index]['question']}')),
                                             Form(
                                                 key: controller
                                                     .formSecondKeys[index],
                                                 child: Row(children: [
                                                   Expanded(
                                                       child: TextFormField(
-                                                    decoration: InputDecoration(
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Question',
                                                       border:
                                                           OutlineInputBorder(),
                                                     ),
                                                     validator: (value) {
                                                       final question =
-                                                          controller.testQa
-                                                                  .value[index]
+                                                          controller
+                                                                  .testQa[index]
                                                               ['question'];
                                                       if (question == null ||
                                                           question
@@ -121,7 +130,7 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                                           question == "") {
                                                         if (value == null ||
                                                             value.isEmpty) {
-                                                          return 'Please enter some value';
+                                                          return 'Please enter question';
                                                         }
                                                         return null;
                                                       }
@@ -133,25 +142,77 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                                     },
                                                   )),
                                                   ElevatedButton(
-                                                      child: Text('Add'),
+                                                      child: const Text('Add'),
                                                       onPressed: () {
                                                         if (controller
-                                                            .formSecondKeys
-                                                            .value[index]
+                                                            .formSecondKeys[
+                                                                index]
                                                             .currentState!
                                                             .validate()) {
                                                           controller
                                                               .onSubmitQuestion(
                                                                   index);
                                                           controller
-                                                              .formSecondKeys
-                                                              .value[index]
+                                                              .formSecondKeys[
+                                                                  index]
                                                               .currentState!
                                                               .reset();
                                                         }
                                                       })
                                                 ])),
                                             Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                child: Text(
+                                                    'CF expert: ${controller.testQa[index]['cf_expert']}')),
+                                            Form(
+                                                key: controller
+                                                    .formThirdKeys[index],
+                                                child: Row(children: [
+                                                  Expanded(
+                                                      child: TextFormField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      labelText:
+                                                          'Certain Factor Expert Value',
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return 'Please enter certain factor expert value';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    onChanged: (value) {
+                                                      controller
+                                                          .setExpertAnswer(
+                                                              value);
+                                                    },
+                                                  )),
+                                                  ElevatedButton(
+                                                      child: const Text('Add'),
+                                                      onPressed: () {
+                                                        if (controller
+                                                            .formThirdKeys[
+                                                                index]
+                                                            .currentState!
+                                                            .validate()) {
+                                                          controller
+                                                              .onSubmitExpertValue(
+                                                                  index);
+                                                          controller
+                                                              .formThirdKeys[
+                                                                  index]
+                                                              .currentState!
+                                                              .reset();
+                                                        }
+                                                      })
+                                                ])),
+                                            const Padding(
                                                 padding: EdgeInsets.all(8),
                                                 child: Text('Answer:')),
                                             Row(children: [
@@ -159,14 +220,15 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                                   child: TextFormField(
                                                 keyboardType:
                                                     TextInputType.number,
-                                                decoration: InputDecoration(
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: 'Key Answer',
                                                   border: OutlineInputBorder(),
                                                 ),
                                                 validator: (value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
-                                                    return 'Please enter some key';
+                                                    return 'Please enter key answer';
                                                   }
                                                   return null;
                                                 },
@@ -177,14 +239,15 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                               )),
                                               Expanded(
                                                   child: TextFormField(
-                                                decoration: InputDecoration(
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: 'Name Answer',
                                                   border: OutlineInputBorder(),
                                                 ),
                                                 validator: (value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
-                                                    return 'Please enter some name';
+                                                    return 'Please enter name answer';
                                                   }
                                                   return null;
                                                 },
@@ -197,14 +260,16 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                                   child: TextFormField(
                                                 keyboardType:
                                                     TextInputType.number,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Value Answer',
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText:
+                                                      'Certain Factor User Value',
                                                   border: OutlineInputBorder(),
                                                 ),
                                                 validator: (value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
-                                                    return 'Please enter some value';
+                                                    return 'Please enter some certain factor user value';
                                                   }
                                                   return null;
                                                 },
@@ -214,18 +279,15 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                                 },
                                               )),
                                               ElevatedButton(
-                                                  child: Text('Add'),
+                                                  child: const Text('Add'),
                                                   onPressed: () {
                                                     if (controller
-                                                        .formKeys
-                                                        .value[index]
+                                                        .formKeys[index]
                                                         .currentState!
                                                         .validate()) {
                                                       controller.onSubmitAnswer(
                                                           index);
-                                                      controller
-                                                          .formKeys
-                                                          .value[index]
+                                                      controller.formKeys[index]
                                                           .currentState!
                                                           .reset();
                                                     }
@@ -246,27 +308,27 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
 
                                                 return Row(children: [
                                                   Text(
-                                                      '$key: ${answer['name']} - ${answer['value']}',
-                                                      style: TextStyle(
+                                                      '$key: ${answer['name']} - :${answer['value']}',
+                                                      style: const TextStyle(
                                                           fontSize: 20)),
                                                   ElevatedButton(
                                                       onPressed: () =>
                                                           controller
                                                               .deleteAnswer(
                                                                   index, key),
-                                                      child: Text('Delete'))
-                                                ]) as Widget;
+                                                      child:
+                                                          const Text('Delete'))
+                                                ]);
                                               }).toList(),
                                             )
                                           ]));
                                 },
                               ))
-                            : Align(
+                            : const Align(
                                 alignment: Alignment.center,
                                 child: Padding(
                                     padding: EdgeInsets.all(8),
                                     child: Text('No Question Made Yet'))),
-                        SizedBox(height: 20),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -279,17 +341,26 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                         controller.resetData();
                                       });
                                     } else {
-                                      await controller.insertQA().then((value) {
-                                        controller.resetData();
-                                      });
+                                      if (controller.testQa.isEmpty) {
+                                        Get.snackbar("Empty Field",
+                                            "Please add atleast one Question And Answer");
+                                      } else {
+                                        await controller
+                                            .insertQA()
+                                            .then((value) {
+                                          controller.resetData();
+                                        });
+                                      }
                                     }
                                   }
                                 },
-                                child: Text('Submit'),
+                                child: Text(controller.isEdit.value
+                                    ? 'Update Certain Factor User'
+                                    : 'Add Certain Factor User'),
                               ),
                               ElevatedButton(
                                 onPressed: () => controller.resetData(),
-                                child: Text('Reset Data'),
+                                child: const Text('Reset Data'),
                               )
                             ]),
                         Padding(
@@ -298,7 +369,7 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                             onChanged: (value) {
                               controller.setSearch(value);
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Search',
                               hintText: 'Enter search term',
                               prefixIcon: Icon(Icons.search),
@@ -330,32 +401,36 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                  Text(
-                                                    diagnoses[index]
-                                                        .test_title
-                                                        .toString(),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          'MochiyPopOne',
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black,
+                                                  SizedBox(
+                                                    width: 150,
+                                                    child: Text(
+                                                      diagnoses[index]
+                                                          .testTitle
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
                                                   ),
                                                   ElevatedButton(
-                                                      child: Text('Delete Qa'),
+                                                      child: const Text(
+                                                          'Delete Qa'),
                                                       onPressed: () {
                                                         if (diagnoses[index]
-                                                                    .test_id !=
+                                                                    .testId !=
                                                                 null ||
                                                             diagnoses[index]
-                                                                    .test_id !=
+                                                                    .testId !=
                                                                 null) {
                                                           controller.deleteQA(
                                                               diagnoses[index]
-                                                                  .test_id
+                                                                  .testId
                                                                   .toString());
                                                         }
                                                       }),
@@ -364,7 +439,7 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                     },
                                   );
                                 } else if (snapshot.hasError) {
-                                  return Center(
+                                  return const Center(
                                     child: Text(
                                       'Error Occurred. Please Contact Our Support Team.',
                                       textAlign: TextAlign.center,
@@ -378,11 +453,11 @@ class QuestionAnswerAdminScreen extends StatelessWidget {
                                   );
                                 } else if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return Center(
+                                  return const Center(
                                     child: CircularProgressIndicator(),
                                   );
                                 } else {
-                                  return Center(
+                                  return const Center(
                                     child: Text(
                                       'No Diagnose Data.',
                                       textAlign: TextAlign.center,

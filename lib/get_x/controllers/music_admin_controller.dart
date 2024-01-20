@@ -1,6 +1,5 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/music_repository.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Music.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/music.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -70,11 +69,11 @@ class MusicAdminController extends GetxController {
   void setIsEditVideo(Music music) {
     setEditMusic.value = true;
 
-    nameController.value.text = music.music_name!;
+    nameController.value.text = music.musicName!;
 
     dataMusicRequest.value = {
-      "music_id": music.music_id,
-      "music_name": music.music_name,
+      "music_id": music.musicId,
+      "music_name": music.musicName,
       "music_url": audioFile.value,
       "music_cover": imageFile.value,
     };

@@ -1,19 +1,19 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/forgot_password_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/sign_up_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignInScreen extends StatelessWidget {
   static const String id = "sign_in_screen";
 
-  AuthController authController = Get.put(AuthController());
+  final authController = Get.put(AuthController());
 
   final _formKey = GlobalKey<FormState>();
 
+  SignInScreen({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -23,7 +23,7 @@ class SignInScreen extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Image.asset('assets/images/people.jpg', width: 300, height: 300),
-            Align(
+            const Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                     padding: EdgeInsets.all(20),
@@ -38,7 +38,7 @@ class SignInScreen extends StatelessWidget {
               key: _formKey,
               child: Column(children: [
                 Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: TextFormField(
                       controller: authController.email,
                       keyboardType: TextInputType.emailAddress,
@@ -58,7 +58,7 @@ class SignInScreen extends StatelessWidget {
                       ),
                     )),
                 Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: TextFormField(
                       controller: authController.password,
                       keyboardType: TextInputType.visiblePassword,
@@ -79,16 +79,15 @@ class SignInScreen extends StatelessWidget {
                       obscureText: true,
                     )),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          
-                       Get.to(ForgotPasswordScreen());
+                          Get.to(ForgotPasswordScreen());
                         },
-                        child: Text(
+                        child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
                             fontFamily: 'MochiyPopOne',
@@ -101,43 +100,43 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: ElevatedButton(
-                      child: Text('Sign In',
-                          style: TextStyle(
-                              fontFamily: 'MochiyPopOne', color: Colors.white)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await authController.login();
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(5, 15, 47, 1),
-                        onPrimary: Colors.black,
-                        minimumSize: Size.fromHeight(50),
+                        foregroundColor: Colors.black,
+                        backgroundColor: const Color.fromRGBO(5, 15, 47, 1),
+                        minimumSize: const Size.fromHeight(50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
+                      child: const Text('Sign In',
+                          style: TextStyle(
+                              fontFamily: 'MochiyPopOne', color: Colors.white)),
                     )),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Need to create an account? ',
+                        const Text('Need to create an account? ',
                             style: TextStyle(
                                 fontFamily: 'MochiyPopOne',
                                 color: Colors.black)),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: Color.fromRGBO(5, 15, 47, 1),
-                              onPrimary: Colors.white,
+                              foregroundColor: Colors.white,
+                              backgroundColor: const Color.fromRGBO(5, 15, 47, 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               )),
                           onPressed: () => Get.to(SignUpScreen()),
-                          child: Text('Sign Up',
+                          child: const Text('Sign Up',
                               style: TextStyle(
                                   fontFamily: 'MochiyPopOne',
                                   color: Colors.white,

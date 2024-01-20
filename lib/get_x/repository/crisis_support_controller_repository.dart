@@ -1,4 +1,4 @@
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/CrisisSupport.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/crisis_support.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 

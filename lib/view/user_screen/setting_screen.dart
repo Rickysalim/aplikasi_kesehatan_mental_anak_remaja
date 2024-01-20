@@ -1,5 +1,5 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/CrisisSupport.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/crisis_support_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/diagnose_history_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/profile_screen.dart';
@@ -9,13 +9,17 @@ import 'package:get/get.dart';
 class SettingScreen extends StatelessWidget {
   static const String id = "setting_screen";
 
-  AuthController authController = Get.put(AuthController());
+  final authController = Get.put(AuthController());
+
+  final userGuardsController = Get.put(UserGuardsController());
+
+  SettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
@@ -23,115 +27,121 @@ class SettingScreen extends StatelessWidget {
               Color.fromRGBO(255, 253, 208, 1),
               Color.fromRGBO(255, 255, 255, 1),
             ])),
-        child: ListView(padding: EdgeInsets.all(10), children: <Widget>[
+        child: ListView(padding: const EdgeInsets.all(10), children: <Widget>[
           Padding(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               child: Column(children: [
-              Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(5),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(255, 220, 220, 1),
-                        alignment: Alignment.center,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () => Get.to(DiagnoseHistoryScreen()),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text('Diagnose History',
-                                style: TextStyle(
-                                    fontFamily: 'MochiyPopOne',
-                                    fontSize: 20,
-                                    color: Colors.black)),
-                          )),
-                        ],
-                      )),
-                ),
+                const SizedBox(height: 100),
+                CircleAvatar(
+                    radius: 100,
+                    backgroundColor: Colors.brown,
+                    backgroundImage: NetworkImage(userGuardsController
+                        .user.currentUser!.photoURL
+                        .toString()),
+                    child: Text(
+                        userGuardsController.user.currentUser!.displayName
+                            .toString(),
+                        style: const TextStyle(color: Colors.white))),
+                const SizedBox(height: 100),
                 Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(255, 220, 220, 1),
+                        backgroundColor: const Color.fromRGBO(255, 220, 220, 1),
                         alignment: Alignment.center,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       onPressed: () => Get.to(ProfileScreen()),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                              child: Padding(
+                          Padding(
                             padding: EdgeInsets.all(10),
                             child: Text('Profile',
-                                style: TextStyle(
-                                    fontFamily: 'MochiyPopOne',
-                                    fontSize: 20,
-                                    color: Colors.black)),
-                          )),
+                            style: TextStyle(
+                                fontFamily: 'MochiyPopOne',
+                                fontSize: 20,
+                                color: Colors.black)),
+                          ),
                         ],
                       )),
                 ),
                 Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(255, 220, 220, 1),
+                        backgroundColor: const Color.fromRGBO(255, 220, 220, 1),
                         alignment: Alignment.center,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () async => await authController.logout(),
-                      child: Row(
+                      onPressed: () => Get.to(DiagnoseHistoryScreen()),
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text('Sign Out',
-                                    style: TextStyle(
-                                        fontFamily: 'MochiyPopOne',
-                                        fontSize: 20,
-                                        color: Colors.black))),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text('Diagnose History',
+                            style: TextStyle(
+                                fontFamily: 'MochiyPopOne',
+                                fontSize: 20,
+                                color: Colors.black)),
                           ),
                         ],
                       )),
                 ),
-                 Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(5),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(255, 220, 220, 1),
+                        backgroundColor: const Color.fromRGBO(255, 220, 220, 1),
                         alignment: Alignment.center,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       onPressed: () => Get.to(CrisisSupportScreen()),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text('Consultation',
-                                    style: TextStyle(
-                                        fontFamily: 'MochiyPopOne',
-                                        fontSize: 20,
-                                        color: Colors.black))),
-                          ),
+                          Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text('Consultation',
+                                  style: TextStyle(
+                                      fontFamily: 'MochiyPopOne',
+                                      fontSize: 20,
+                                      color: Colors.black))),
+                        ],
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(255, 220, 220, 1),
+                        alignment: Alignment.center,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () async => await authController.logout(),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text('Sign Out',
+                                  style: TextStyle(
+                                      fontFamily: 'MochiyPopOne',
+                                      fontSize: 20,
+                                      color: Colors.black))),
                         ],
                       )),
                 ),

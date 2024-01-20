@@ -3,32 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BreatheExcerciseScreen extends StatelessWidget {
-  BreathingExerciseController breathingExerciseController =
-      Get.put(BreathingExerciseController());
+  final breathingExerciseController = Get.put(BreathingExerciseController());
+
+  BreatheExcerciseScreen({super.key});
 
   Widget actionButton(
       SessionState state, BreathingExerciseController controller) {
-    if (state == SessionState.Initial) {
+    if (state == SessionState.initial) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: FloatingActionButton(
           backgroundColor: Colors.yellow.shade900,
           onPressed: controller.start,
-          child: Icon(Icons.play_arrow),
+          child: const Icon(Icons.play_arrow),
         ),
       );
-    } else if (state == SessionState.Ended) {
+    } else if (state == SessionState.ended) {
       return FloatingActionButton(
           backgroundColor: Colors.yellow.shade900,
           onPressed: () {
             controller.resetAll();
           },
-          child: Icon(Icons.arrow_back));
+          child: const Icon(Icons.arrow_back));
     } else {
       return FloatingActionButton(
           backgroundColor: Colors.yellow.shade900,
           onPressed: controller.stop,
-          child: Icon(Icons.stop));
+          child: const Icon(Icons.stop));
     }
   }
 
@@ -42,7 +43,7 @@ class BreatheExcerciseScreen extends StatelessWidget {
           String secondsStr =
               (controller.seconds.value % 60).toString().padLeft(2, '0');
           return Scaffold(
-            backgroundColor: Color.fromRGBO(255, 253, 208, 1),
+            backgroundColor: const Color.fromRGBO(255, 253, 208, 1),
             body: Align(
                 alignment: Alignment.center,
                 child: Column(
@@ -63,19 +64,16 @@ class BreatheExcerciseScreen extends StatelessWidget {
                       child: Text(
                         controller
                             .instructionText(controller.sessionState.value),
-                        style: TextStyle(fontSize: 28),
+                        style: const TextStyle(fontSize: 28),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: controller.countDown.value != null
-                          ? Text(
-                              '${controller.countDown.value}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 28),
-                            )
-                          : Text(''),
-                    )
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Text(
+                          '${controller.countDown.value}',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 28),
+                        ))
                   ],
                 )),
             floatingActionButton:

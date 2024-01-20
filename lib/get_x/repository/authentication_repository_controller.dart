@@ -1,14 +1,13 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/utils/exceptions/signin_exception.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/utils/exceptions/signup_exception.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationRepositoryController extends GetxController {
   static AuthenticationRepositoryController get instance => Get.find();
 
-  UserGuardsController _userGuardsController = Get.put(UserGuardsController());
+  final _userGuardsController = Get.put(UserGuardsController());
 
   final _auth = FirebaseAuth.instance;
 
@@ -28,8 +27,8 @@ class AuthenticationRepositoryController extends GetxController {
   Future<void> signOut() async {
     try {
       await _auth.signOut();
-    } catch (e) {
-      throw e;
+    } catch (err) {
+      rethrow;
     }
   }
 

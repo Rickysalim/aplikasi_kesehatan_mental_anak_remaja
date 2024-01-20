@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/diagnose_repository_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Diagnose.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/diagnose.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +22,7 @@ class DiagnoseController extends GetxController {
 
   Widget isRadioButtonNull(String question) {
     if (mapSelectedOptions[question] == null) {
-      return Align(
+      return const Align(
           alignment: Alignment.centerLeft,
           child: Padding(
               padding: EdgeInsets.all(10),
@@ -36,7 +35,7 @@ class DiagnoseController extends GetxController {
                   color: Colors.red,
                 ))));
     }
-    return Text('');
+    return const Text('');
   }
 
   bool allOptionsSelected() {
@@ -59,17 +58,14 @@ class DiagnoseController extends GetxController {
     resultTest.value = 0.0;
   }
 
-  void showResultTest() {
-    for(var entry in mapSelectedOptions.entries) {
-       final data = jsonDecode(entry.value);
-       resultTest.value += data['value'];
-    }
-    update();
-  }
-
-
   final diagnoseRepositoryController = Get.put(DiagnoseRepositoryController());
 
+  Future<void> calculateDiagnose() async {
+    double result = await diagnoseRepositoryController.calculateDiagnose(mapSelectedOptions);
+    int nilaiPersentase = (result * 100).toInt();
+    resultTest.value = nilaiPersentase.toDouble();
+    update();
+  }
 
   Stream<List<Diagnose>> getAllDiagnose() {
     return diagnoseRepositoryController.getAllDiagnose();

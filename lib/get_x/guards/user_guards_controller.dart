@@ -1,4 +1,3 @@
-import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/landing_screen_admin.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/email_verification_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/landing_screen.dart';

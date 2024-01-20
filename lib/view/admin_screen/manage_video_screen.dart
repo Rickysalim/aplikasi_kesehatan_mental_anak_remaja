@@ -1,13 +1,13 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/video_admin_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/video_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/video.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VideoAdminScreen extends StatelessWidget {
-  VideoAdminController videoAdminController = Get.put(VideoAdminController());
-
-  VideoController videoController = Get.put(VideoController());
+class ManageVideoAdminScreen extends StatelessWidget {
+  ManageVideoAdminScreen({super.key});
+  final  videoAdminController = Get.put(VideoAdminController());
+  final videoController = Get.put(VideoController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +16,24 @@ class VideoAdminScreen extends StatelessWidget {
         builder: (controller) {
           return WillPopScope(
               onWillPop: () async {
-                controller.onClose();
+                controller.clearAllData();
+                videoController.clearSearch();
                 return true;
               },
               child: Scaffold(
                   appBar: AppBar(
-                    title: Text('Video'),
+                    title: const Text('Video'),
                     leading: Builder(builder: (BuildContext context) {
                       return IconButton(
                           onPressed: () {
                             controller.onClose();
                             Get.back();
                           },
-                          icon: Icon(Icons.arrow_back));
+                          icon: const Icon(Icons.arrow_back));
                     }),
                   ),
                   body: Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
@@ -48,10 +49,10 @@ class VideoAdminScreen extends StatelessWidget {
                                     },
                                     controller:
                                         controller.titleController.value,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         labelText: 'Video Title'),
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   TextFormField(
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -61,33 +62,33 @@ class VideoAdminScreen extends StatelessWidget {
                                     },
                                     controller:
                                         controller.descriptionController.value,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         labelText: 'Video Description'),
                                     maxLines: 3,
                                   ),
-                                  SizedBox(height: 20),
-                                  Container(
+                                  const SizedBox(height: 20),
+                                  SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         onPressed: controller.pickImage,
-                                        child: Text('Pick Image'),
+                                        child: const Text('Pick Image'),
                                       )),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   controller.imageFile.value != null
                                       ? Text(controller.imageFile.value!.name)
                                       : Container(),
-                                  SizedBox(height: 20),
-                                  Container(
+                                  const SizedBox(height: 20),
+                                  SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         onPressed: controller.pickVideo,
-                                        child: Text('Pick Video'),
+                                        child: const Text('Pick Video'),
                                       )),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   controller.videoFile.value != null
                                       ? Text(controller.videoFile.value!.name)
                                       : Container(),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -116,12 +117,8 @@ class VideoAdminScreen extends StatelessWidget {
                                                 });
                                               }
                                             } else {
-                                              Get.snackbar("Kesalahan",
-                                                  "Gambar dan Video harus di isi",
-                                                  snackPosition:
-                                                      SnackPosition.TOP,
-                                                  backgroundColor: Colors.red,
-                                                  colorText: Colors.white);
+                                              Get.snackbar("Empty Field",
+                                                  "Image And Video must be fill");
                                             }
                                           }
                                         },
@@ -132,7 +129,7 @@ class VideoAdminScreen extends StatelessWidget {
                                       ),
                                       ElevatedButton(
                                         onPressed: () => controller.resetData(),
-                                        child: Text('Reset Data'),
+                                        child: const Text('Reset Data'),
                                       ),
                                     ],
                                   ),
@@ -143,7 +140,7 @@ class VideoAdminScreen extends StatelessWidget {
                                 onChanged: (value) {
                                   videoController.setSearch(value);
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Search',
                                   hintText: 'Enter search term',
                                   prefixIcon: Icon(Icons.search),
@@ -156,7 +153,7 @@ class VideoAdminScreen extends StatelessWidget {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return Center(
+                                    return const Center(
                                       child: CircularProgressIndicator(),
                                     );
                                   }
@@ -169,14 +166,14 @@ class VideoAdminScreen extends StatelessWidget {
 
                                   if (!snapshot.hasData ||
                                       snapshot.data!.isEmpty) {
-                                    return Center(
+                                    return const Center(
                                       child: Text('No Video found.'),
                                     );
                                   }
 
                                   return GridView.builder(
                                     gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 8.0,
                                       mainAxisSpacing: 8.0,
@@ -185,7 +182,7 @@ class VideoAdminScreen extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       List<Video>? videos = snapshot.data;
                                       return Padding(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: GestureDetector(
                                           onTap: () {
                                             controller
@@ -200,21 +197,19 @@ class VideoAdminScreen extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                                 image: NetworkImage(
                                                   videos![index]
-                                                      .video_caption_url
+                                                      .videoCaptionUrl
                                                       .toString(),
                                                 ),
                                                 onError:
                                                     (exception, stackTrace) {
-                                                  Container(
-                                                    child: Center(
-                                                      child:
-                                                          Text("Image Error"),
-                                                    ),
+                                                  const Center(
+                                                    child:
+                                                        Text("Image Error"),
                                                   );
                                                 },
                                               ),
                                             ),
-                                            padding: EdgeInsets.all(5),
+                                            padding: const EdgeInsets.all(5),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -225,9 +220,9 @@ class VideoAdminScreen extends StatelessWidget {
                                                   width: 150,
                                                   child: Text(
                                                     videos[index]
-                                                        .video_title
+                                                        .videoTitle
                                                         .toString(),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 16,
                                                       fontWeight:

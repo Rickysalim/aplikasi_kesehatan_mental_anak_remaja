@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Diagnose.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/diagnose.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../repository/diagnose_repository_controller.dart';
 
 class QaController extends GetxController {
@@ -18,22 +15,24 @@ class QaController extends GetxController {
   final RxList<GlobalKey<FormState>> formSecondKeys =
       RxList<GlobalKey<FormState>>([]);
 
+  final RxList<GlobalKey<FormState>> formThirdKeys =
+      RxList<GlobalKey<FormState>>([]);
+
   final Rx<TextEditingController> testTitleController =
       Rx<TextEditingController>(TextEditingController());
 
-  final RxString testCoverUrl = RxString("");
   final RxList<dynamic> testQa = RxList<dynamic>([]);
 
   final RxString question = RxString("");
   final RxString keyAnswer = RxString("");
   final RxString nameAnswer = RxString("");
-  final RxString valueAnswer = RxString("");
+  final RxDouble valueAnswer = RxDouble(0.0);
+  final RxDouble expertAnswer = RxDouble(0.0);
 
   final RxBool isEdit = RxBool(false);
 
   final RxMap<String, dynamic> testQaData = RxMap<String, dynamic>({
     "test_id": "",
-    "test_cover_url": "",
     "test_title": "",
     "test_qa": [],
   });
@@ -64,7 +63,17 @@ class QaController extends GetxController {
   }
 
   void setValueAnswer(String value) {
-    valueAnswer.value = value;
+    valueAnswer.value = double.parse(value);
+    update();
+  }
+
+  void setExpertAnswer(String value) {
+    expertAnswer.value = double.parse(value);
+    update();
+  }
+
+  void onSubmitExpertValue(int index) {
+    testQa[index]['cf_expert'] = expertAnswer.value;
     update();
   }
 
@@ -80,31 +89,30 @@ class QaController extends GetxController {
     update();
   }
 
-  void resetData(){
+  void resetData() {
     formKey.value.currentState!.reset();
     clearAllData();
     update();
   }
 
   void clearAllData() {
-    testCoverUrl.value = "";
     testQa.value = [];
     testQaData.value = {
       "test_id": "",
-      "test_cover_url": "",
       "test_title": "",
       "test_qa": null,
     };
     question.value = "";
     keyAnswer.value = "";
     nameAnswer.value = "";
-    valueAnswer.value = "";
+    valueAnswer.value = 0.0;
+    expertAnswer.value = 0.0;
     testTitleController.value.text = "";
     isEdit.value = false;
     testTitle.value = "";
     formKeys.value = [];
     formSecondKeys.value = [];
-
+    formThirdKeys.value = [];
   }
 
   @override
@@ -116,22 +124,19 @@ class QaController extends GetxController {
   void onSubmitAnswer(int index) {
     testQa[index]['answer'][keyAnswer.value] = {
       "name": nameAnswer.value,
-      "value": valueAnswer.value.runtimeType == "String"
-          ? double.parse(valueAnswer.value)
-          : 0.0
+      "value": valueAnswer.value,
     };
     update();
   }
 
   void setEditDiagnose(Diagnose data) {
     isEdit.value = true;
-    testQa.value = data.test_qa;
-    testTitleController.value.text = data.test_title!;
+    testQa.value = data.testQa;
+    testTitleController.value.text = data.testTitle!;
     testQaData.value = {
-      "test_id": data.test_id,
-      "test_cover_url": data.test_cover_url,
-      "test_title": data.test_title!,
-      "test_qa": testQa.value,
+      "test_id": data.testId,
+      "test_title": data.testTitle!,
+      "test_qa": testQa,
     };
 
     update();
@@ -150,9 +155,10 @@ class QaController extends GetxController {
       diagnoseRepositoryController.searchDiagnose(testTitle.value);
 
   Future<void> updateQa() async {
-    testQaData["test_cover_url"] = testCoverUrl.value;
+
     testQaData["test_title"] = testTitleController.value.text;
-    testQaData["test_qa"] = testQa.value;
+    testQaData["test_qa"] = testQa;
+    
     await diagnoseRepositoryController.updateQA(testQaData).then((value) {
       isEdit.value = false;
       update();
@@ -162,7 +168,6 @@ class QaController extends GetxController {
   Future<void> insertQA() async {
     testQaData.value = {
       "test_id": "",
-      "test_cover_url": testCoverUrl.value,
       "test_title": testTitleController.value.text,
       "test_qa": testQa,
     };

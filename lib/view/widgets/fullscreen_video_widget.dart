@@ -6,8 +6,8 @@ import 'package:video_player/video_player.dart';
 import 'package:wakelock/wakelock.dart';
 
 class FullScreenVideo extends StatelessWidget {
-  FullScreenVideo(this.controller);
-  VideoController controller;
+  const FullScreenVideo(this.controller, {super.key});
+  final VideoController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class FullScreenVideo extends StatelessWidget {
                                       controller.videoPlayerController),
                                 )));
                       } else {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -49,7 +49,7 @@ class FullScreenVideo extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Container(
-                            color: Color.fromRGBO(100, 125, 124, 0.5),
+                            color: const Color.fromRGBO(100, 125, 124, 0.5),
                             child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -57,7 +57,7 @@ class FullScreenVideo extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
                                           child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                   backgroundColor: Colors.red),
@@ -65,22 +65,22 @@ class FullScreenVideo extends StatelessWidget {
                                                   controller.onClickEvent,
                                               child: controller
                                                       .isVideoPlaying.value
-                                                  ? Icon(Icons.pause)
-                                                  : Icon(Icons.play_arrow))),
-                                      SizedBox(width: 5),
+                                                  ? const Icon(Icons.pause)
+                                                  : const Icon(Icons.play_arrow))),
+                                      const SizedBox(width: 5),
                                       Text(
                                           controller.formatTimeVideo(controller
                                               .position.value.inSeconds),
-                                          style: TextStyle(fontSize: 5)),
+                                          style: const TextStyle(fontSize: 5)),
                                       Text(
                                           controller.formatTimeVideo(
                                               (controller.duration.value -
                                                       controller.position.value)
                                                   .inSeconds),
-                                          style: TextStyle(fontSize: 5)),
+                                          style: const TextStyle(fontSize: 5)),
                                       Slider(
                                           activeColor: Colors.red,
-                                          inactiveColor: Color.fromARGB(
+                                          inactiveColor: const Color.fromARGB(
                                               199, 123, 121, 120),
                                           secondaryActiveColor: Colors.red,
                                           thumbColor: Colors.red,
@@ -95,9 +95,8 @@ class FullScreenVideo extends StatelessWidget {
                                             controller.slider(newValue);
                                           }),
                                       IconButton(
-                                          onPressed: () => controller
-                                              .setFullScreen.value = false,
-                                          icon: Icon(Icons.fullscreen)),
+                                          onPressed: () => controller.setFullScreenVideo(),
+                                          icon: const Icon(Icons.fullscreen)),
                                       IconButton(
                                           onPressed: () async {
                                             controller.setLandscapeOrPortrait
@@ -119,11 +118,11 @@ class FullScreenVideo extends StatelessWidget {
 
                                             await Wakelock.enable();
                                           },
-                                          icon: Icon(Icons.screen_rotation)),
+                                          icon: const Icon(Icons.screen_rotation)),
                                     ])),
                           ),
                         ))
-                    : SizedBox.shrink()
+                    : const SizedBox.shrink()
               ]));
         });
   }

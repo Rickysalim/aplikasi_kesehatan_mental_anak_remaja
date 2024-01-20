@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 enum SessionState {
-  Initial,
-  Starting,
-  HoldBreathIn,
-  HoldBreathOut,
-  BreathingIn,
-  BreathingOut,
-  Ended,
-  Invalid
+  initial,
+  starting,
+  holdBreathIn,
+  holdBreathOut,
+  breathingIn,
+  breathingOut,
+  ended,
+  invalid
 }
 
 
@@ -25,7 +24,7 @@ class TimerModel {
   final RxList<ValueChanged<ElapsedTime>> timerListeners =
       RxList(<ValueChanged<ElapsedTime>>[]);
   final Rx<TextStyle> textStyle =
-      Rx(TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue"));
+      Rx(const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue"));
   final Rx<Stopwatch> stopwatch = Rx(Stopwatch());
   final RxInt timerMillisecondsRefreshRate = RxInt(30);
 }
@@ -48,7 +47,7 @@ class BreathingExerciseController extends GetxController {
   late RxInt milliseconds = RxInt(0);
   RxInt minutes = RxInt(0);
   RxInt seconds = RxInt(0);
-  Rx<SessionState> sessionState = Rx<SessionState>(SessionState.Initial);
+  Rx<SessionState> sessionState = Rx<SessionState>(SessionState.initial);
   RxInt countDown = RxInt(0);
   Rx<Timer?> countDownTimer = Rx<Timer?>(null);
   Rx<Duration> oneSec = Rx<Duration>(const Duration(seconds: 1));
@@ -74,7 +73,7 @@ class BreathingExerciseController extends GetxController {
     milliseconds.value = 0;
     minutes.value = 0;
     seconds.value = 0;
-    sessionState.value = SessionState.Initial;
+    sessionState.value = SessionState.initial;
     countDown.value = 0;
     countDownTimer.value?.cancel();
     countDownTimer.value = null;
@@ -102,7 +101,7 @@ class BreathingExerciseController extends GetxController {
 
   void stop() {
     dependencies.value.stopwatch.value.stop();
-    sessionState.value = SessionState.Ended;
+    sessionState.value = SessionState.ended;
     countDownTimer.value!.cancel();
     countDown.value = 0;
   }
@@ -122,29 +121,29 @@ class BreathingExerciseController extends GetxController {
   SessionState nextState(SessionState state) {
     SessionState next;
     switch (state) {
-      case SessionState.Initial:
-        next = SessionState.Starting;
+      case SessionState.initial:
+        next = SessionState.starting;
         break;
-      case SessionState.Starting:
-        next = SessionState.BreathingIn;
+      case SessionState.starting:
+        next = SessionState.breathingIn;
         break;
-      case SessionState.BreathingIn:
-        next = SessionState.HoldBreathIn;
+      case SessionState.breathingIn:
+        next = SessionState.holdBreathIn;
         break;
-      case SessionState.BreathingOut:
-        next = SessionState.HoldBreathOut;
+      case SessionState.breathingOut:
+        next = SessionState.holdBreathOut;
         break;
-      case SessionState.HoldBreathIn:
-        next = SessionState.BreathingOut;
+      case SessionState.holdBreathIn:
+        next = SessionState.breathingOut;
         break;
-      case SessionState.HoldBreathOut:
-        next = SessionState.BreathingIn;
+      case SessionState.holdBreathOut:
+        next = SessionState.breathingIn;
         break;
-      case SessionState.Ended:
-        next = SessionState.Ended;
+      case SessionState.ended:
+        next = SessionState.ended;
         break;
       default:
-        next = SessionState.Invalid;
+        next = SessionState.invalid;
         break;
     }
     return next;
@@ -153,29 +152,29 @@ class BreathingExerciseController extends GetxController {
   String instructionText(SessionState state) {
     RxString text = RxString("");
     switch (state) {
-      case SessionState.Initial:
+      case SessionState.initial:
         text.value = "Press Play to Begin";
         break;
-      case SessionState.Starting:
+      case SessionState.starting:
         text.value = "Get Ready...";
         break;
-      case SessionState.BreathingIn:
+      case SessionState.breathingIn:
         text.value = "Breathe in Slowly";
         break;
-      case SessionState.BreathingOut:
+      case SessionState.breathingOut:
         text.value = "Breathe out Slowly";
         break;
-      case SessionState.HoldBreathIn:
-      case SessionState.HoldBreathOut:
+      case SessionState.holdBreathIn:
+      case SessionState.holdBreathOut:
         text.value = "Hold";
         break;
-      case SessionState.Ended:
+      case SessionState.ended:
         text.value = "Great Job!";
         break;
       default:
-        text!.value = "INVALID STATE";
+        text.value = "INVALID STATE";
         break;
     }
-    return text!.value;
+    return text.value;
   }
 }

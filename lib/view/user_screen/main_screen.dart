@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 class MainScreen extends StatelessWidget {
   static const String id = "";
 
-  SplashScreenController splashScreenController =
-      Get.put(SplashScreenController());
+  final splashScreenController = Get.put(SplashScreenController());
+
+  MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,27 +17,27 @@ class MainScreen extends StatelessWidget {
           return Scaffold(
               body: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: const BoxDecoration(color: Colors.white),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Image.asset('assets/images/people.jpg'),
                         Container(
-                            child: Image.asset('assets/images/people.jpg')),
-                        Container(
-                            margin: EdgeInsets.all(45),
+                            margin: const EdgeInsets.all(45),
                             child: controller.isLoading.value
-                                ? Text('APLIKASI KESEHATAN MENTAL ANAK REMAJA',
+                                ? const Text(
+                                    'APLIKASI KESEHATAN MENTAL ANAK REMAJA',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontFamily: 'Barriecito',
                                         color: Color.fromRGBO(255, 255, 255, 1),
                                         fontSize: 48))
                                 : Container(
-                                    margin: EdgeInsets.only(top: 50),
+                                    margin: const EdgeInsets.only(top: 50),
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Color.fromRGBO(255, 253, 208, 1),
+                                          backgroundColor: const Color.fromRGBO(
+                                              255, 253, 208, 1),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -45,7 +46,7 @@ class MainScreen extends StatelessWidget {
                                         onPressed: () async =>
                                             await splashScreenController
                                                 .setIsViewed(1),
-                                        child: Padding(
+                                        child: const Padding(
                                           padding: EdgeInsets.only(
                                               left: 50,
                                               right: 50,

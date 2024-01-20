@@ -1,5 +1,5 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/rule_based_repository_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/RuleBasedDiagnose.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/rule_based_diagnose.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +8,10 @@ class RuleBasedDiagnoseController extends GetxController {
 
   final Rx<GlobalKey<FormState>> formKey =
       Rx<GlobalKey<FormState>>(GlobalKey<FormState>());
+
+  Rx<TextEditingController> ruleBasedDetailController =
+      Rx<TextEditingController>(TextEditingController());
+
 
   Rx<TextEditingController> maxController =
       Rx<TextEditingController>(TextEditingController());
@@ -29,6 +33,7 @@ class RuleBasedDiagnoseController extends GetxController {
     nameController.value.text = "";
     minController.value.text = "";
     maxController.value.text = "";
+    ruleBasedDetailController.value.text = "";
     setEdit.value = false;
     ruleBasedName.value = "";
   }
@@ -53,17 +58,19 @@ class RuleBasedDiagnoseController extends GetxController {
   void setEditRuleBased(RuleBasedDiagnose rulebased) {
     setEdit.value = true;
 
-    maxController.value.text = rulebased.rule_based_diagnose_max_percent.toString();
-    minController.value.text = rulebased.rule_based_diagnose_min_percent.toString();
-    nameController.value.text = rulebased.rule_based_diagnose_name!;
+    maxController.value.text = rulebased.ruleBasedDiagnoseMaxPercent.toString();
+    minController.value.text = rulebased.ruleBasedDiagnoseMinPercent.toString();
+    nameController.value.text = rulebased.ruleBasedDiagnoseName!;
+    ruleBasedDetailController.value.text = rulebased.ruleBasedDiagnoseDetail!;
   
     ruleBasedRequest.value = {
-      "rule_based_diagnose_id": rulebased.rule_based_diagnose_id,
+      "rule_based_diagnose_id": rulebased.ruleBasedDiagnoseId,
       "rule_based_diagnose_min_percent":
-          rulebased.rule_based_diagnose_min_percent,
+          rulebased.ruleBasedDiagnoseMinPercent,
       "rule_based_diagnose_max_percent":
-          rulebased.rule_based_diagnose_max_percent,
-      "rule_based_diagnose_name": rulebased.rule_based_diagnose_name,
+          rulebased.ruleBasedDiagnoseMaxPercent,
+      "rule_based_diagnose_name": rulebased.ruleBasedDiagnoseName,
+      "rule_based_diagnose_detail": rulebased.ruleBasedDiagnoseDetail
     };
 
     update();
@@ -75,6 +82,7 @@ class RuleBasedDiagnoseController extends GetxController {
     ruleBasedRequest["rule_based_diagnose_max_percent"] =
         maxController.value.text;
     ruleBasedRequest["rule_based_diagnose_name"] = nameController.value.text;
+    ruleBasedRequest["rule_based_diagnose_detail"] = ruleBasedDetailController.value.text;
 
     await ruleBaseDiagnoseRepositoryController
         .updateRuleBased(ruleBasedRequest)
@@ -93,6 +101,7 @@ class RuleBasedDiagnoseController extends GetxController {
       "rule_based_diagnose_id": "",
       "rule_based_diagnose_min_percent": double.parse(minController.value.text),
       "rule_based_diagnose_max_percent": double.parse(maxController.value.text),
+      "rule_based_diagnose_detail": ruleBasedDetailController.value.text,
       "rule_based_diagnose_name": nameController.value.text,
     };
     await ruleBaseDiagnoseRepositoryController
@@ -100,6 +109,7 @@ class RuleBasedDiagnoseController extends GetxController {
   }
 
   RxString ruleBasedName = RxString("");
+
 
   void setSearch(String value) {
     ruleBasedName.value = value;

@@ -1,18 +1,20 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/auth_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/music_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/qa_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/rule_based_admin_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/video_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/manage_music_admin_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/manage_qna_admin_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/manage_rule_based_admin_screen.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/view/admin_screen/manage_video_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AdminLandingScreen extends StatelessWidget {
+  AdminLandingScreen({super.key});
+
   final List<Map<String, dynamic>> items = [
-    {'name': 'Music', 'route': MusicAdminScreen()},
-    {'name': 'Video', 'route': VideoAdminScreen()},
-    {'name': 'Question Answer', 'route': QuestionAnswerAdminScreen()},
-    {'name': 'Rule Based', 'route': RuleBasedDiagnoseAdminScreen()},
+    {'name': 'Music', 'route': ManageMusicAdminScreen()},
+    {'name': 'Video', 'route': ManageVideoAdminScreen()},
+    {'name': 'Question Answer', 'route': ManageQuestionAndAnswerAdminScreen()},
+    {'name': 'Rule Based', 'route': ManageRuleBasedDiagnoseAdminScreen()},
   ];
 
   final authController = Get.put(AuthController());
@@ -27,12 +29,12 @@ class AdminLandingScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () async => authController.logout(),
-              icon: Icon(Icons.logout))
+              icon: const Icon(Icons.logout))
         ],
       ),
       body: GridView.builder(
         itemCount: items.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10.0,
           mainAxisSpacing: 10.0,
@@ -47,7 +49,7 @@ class AdminLandingScreen extends StatelessWidget {
               child: Center(
                 child: Text(
                   items[index]['name'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),

@@ -1,14 +1,17 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/audio_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Music.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/music.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../get_x/controllers/music_admin_controller.dart';
 
-class MusicAdminScreen extends StatelessWidget {
-  MusicAdminController musicAdminController = Get.put(MusicAdminController());
+class ManageMusicAdminScreen extends StatelessWidget {
+  ManageMusicAdminScreen({super.key});
 
-  MusicController musicController = Get.put(MusicController());
+  final musicAdminController = Get.put(MusicAdminController());
+
+  final musicController = Get.put(MusicController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,8 @@ class MusicAdminScreen extends StatelessWidget {
         builder: (controller) {
           return WillPopScope(
               onWillPop: () async {
-                controller.onClose();
+                controller.clearAllData();
+                musicController.clearSearch();
                 return true;
               },
               child: Scaffold(
@@ -28,12 +32,12 @@ class MusicAdminScreen extends StatelessWidget {
                             controller.onClose();
                             Get.back();
                           },
-                          icon: Icon(Icons.arrow_back));
+                          icon: const Icon(Icons.arrow_back));
                     }),
-                    title: Text('Music'),
+                    title: const Text('Music'),
                   ),
                   body: Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
@@ -48,32 +52,32 @@ class MusicAdminScreen extends StatelessWidget {
                                       return null;
                                     },
                                     controller: controller.nameController.value,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         labelText: 'Music Name'),
                                   ),
-                                  SizedBox(height: 20),
-                                  Container(
+                                  const SizedBox(height: 20),
+                                  SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         onPressed: controller.pickImage,
-                                        child: Text('Pick Cover'),
+                                        child: const Text('Pick Cover'),
                                       )),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   controller.imageFile.value != null
                                       ? Text(controller.imageFile.value!.name)
                                       : Container(),
-                                  SizedBox(height: 20),
-                                  Container(
+                                  const SizedBox(height: 20),
+                                  SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         onPressed: controller.pickAudio,
-                                        child: Text('Pick Music'),
+                                        child: const Text('Pick Music'),
                                       )),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   controller.audioFile.value != null
                                       ? Text(controller.audioFile.value!.name)
                                       : Container(),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -92,22 +96,18 @@ class MusicAdminScreen extends StatelessWidget {
                                                 await controller
                                                     .editAudio()
                                                     .then((value) {
-                                                 controller.resetData();
+                                                  controller.resetData();
                                                 });
                                               } else {
                                                 await controller
                                                     .uploadAudio()
                                                     .then((value) {
-                                                    controller.resetData();
+                                                  controller.resetData();
                                                 });
                                               }
                                             } else {
-                                              Get.snackbar("Kesalahan",
-                                                  "Gambar dan Music harus di isi",
-                                                  snackPosition:
-                                                      SnackPosition.TOP,
-                                                  backgroundColor: Colors.red,
-                                                  colorText: Colors.white);
+                                              Get.snackbar("Empty Field",
+                                                  "Image And Music must be fill");
                                             }
                                           }
                                         },
@@ -118,7 +118,7 @@ class MusicAdminScreen extends StatelessWidget {
                                       ),
                                       ElevatedButton(
                                         onPressed: () => controller.resetData(),
-                                        child: Text('Reset Data'),
+                                        child: const Text('Reset Data'),
                                       ),
                                     ],
                                   ),
@@ -127,10 +127,9 @@ class MusicAdminScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: TextField(
                                 onChanged: (value) {
-                                  print(value);
                                   musicController.setSearch(value);
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Search',
                                   hintText: 'Enter search term',
                                   prefixIcon: Icon(Icons.search),
@@ -145,7 +144,7 @@ class MusicAdminScreen extends StatelessWidget {
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
-                                          return Center(
+                                          return const Center(
                                             child: CircularProgressIndicator(),
                                           );
                                         }
@@ -159,14 +158,14 @@ class MusicAdminScreen extends StatelessWidget {
 
                                         if (!snapshot.hasData ||
                                             snapshot.data!.isEmpty) {
-                                          return Center(
+                                          return const Center(
                                             child: Text('No Video found.'),
                                           );
                                         }
 
                                         return GridView.builder(
                                           gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
                                             crossAxisSpacing: 8.0,
                                             mainAxisSpacing: 8.0,
@@ -175,7 +174,7 @@ class MusicAdminScreen extends StatelessWidget {
                                           itemBuilder: (context, index) {
                                             List<Music>? musics = snapshot.data;
                                             return Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   controller.setIsEditVideo(
@@ -191,21 +190,19 @@ class MusicAdminScreen extends StatelessWidget {
                                                       fit: BoxFit.cover,
                                                       image: NetworkImage(
                                                         musics![index]
-                                                            .music_cover
+                                                            .musicCover
                                                             .toString(),
                                                       ),
                                                       onError: (exception,
                                                           stackTrace) {
-                                                        Container(
-                                                          child: Center(
-                                                            child: Text(
-                                                                "Image Error"),
-                                                          ),
+                                                        const Center(
+                                                          child: Text(
+                                                              "Image Error"),
                                                         );
                                                       },
                                                     ),
                                                   ),
-                                                  padding: EdgeInsets.all(5),
+                                                  padding: const EdgeInsets.all(5),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.end,
@@ -217,9 +214,9 @@ class MusicAdminScreen extends StatelessWidget {
                                                         width: 150,
                                                         child: Text(
                                                           musics[index]
-                                                              .music_name
+                                                              .musicName
                                                               .toString(),
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                             color: Colors.black,
                                                             fontSize: 16,
                                                             fontWeight:

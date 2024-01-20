@@ -3,7 +3,7 @@
     <application
         android:label="aplikasi_kesehatan_mental_anak_remaja"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icon_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

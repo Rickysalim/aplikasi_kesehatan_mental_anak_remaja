@@ -6,10 +6,12 @@ import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const String id = "sign_up_screen";
- 
+
   final _formKey = GlobalKey<FormState>();
 
-  AuthController signUpController = Get.put(AuthController());
+  final signUpController = Get.put(AuthController());
+
+  SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,8 @@ class SignUpScreen extends StatelessWidget {
               color: Colors.white,
             ),
             child: ListView(children: <Widget>[
-              Image.asset('assets/images/people.jpg',
-                width: 300, height: 300), 
-              Align(
+              Image.asset('assets/images/people.jpg', width: 300, height: 300),
+              const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                       padding: EdgeInsets.all(10),
@@ -36,7 +37,7 @@ class SignUpScreen extends StatelessWidget {
                   key: _formKey,
                   child: Column(children: [
                     Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -55,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         )),
                     Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -64,6 +65,7 @@ class SignUpScreen extends StatelessWidget {
                             return null;
                           },
                           controller: signUpController.email,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelText: 'Email',
                             filled: true,
@@ -74,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         )),
                     Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -94,7 +96,7 @@ class SignUpScreen extends StatelessWidget {
                           obscureText: true,
                         )),
                     Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -117,46 +119,46 @@ class SignUpScreen extends StatelessWidget {
                           obscureText: true,
                         )),
                     Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: ElevatedButton(
-                          child: Text('Sign Up',
-                              style: TextStyle(
-                                  fontFamily: 'MochiyPopOne',
-                                  color: Colors.white)),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              await signUpController.register().then((value) => {
-                                Get.to(EmailVerificationScreen())
-                              });
+                              await signUpController.register().then((value) =>
+                                  {Get.to(EmailVerificationScreen())});
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(5, 15, 47, 1),
-                            onPrimary: Colors.black,
-                            minimumSize: Size.fromHeight(50),
+                            foregroundColor: Colors.black,
+                            backgroundColor: const Color.fromRGBO(5, 15, 47, 1),
+                            minimumSize: const Size.fromHeight(50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
+                          child: const Text('Sign Up',
+                              style: TextStyle(
+                                  fontFamily: 'MochiyPopOne',
+                                  color: Colors.white)),
                         )),
                     Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Already have an account? ',
+                              const Text('Already have an account? ',
                                   style: TextStyle(
                                       fontFamily: 'MochiyPopOne',
                                       color: Colors.black)),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Color.fromRGBO(5, 15, 47, 1),
-                                    onPrimary: Colors.white,
+                                    foregroundColor: Colors.white,
+                                    backgroundColor:
+                                        const Color.fromRGBO(5, 15, 47, 1),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     )),
                                 onPressed: () => Get.to(SignInScreen()),
-                                child: Text('Sign In',
+                                child: const Text('Sign In',
                                     style: TextStyle(
                                         fontFamily: 'MochiyPopOne',
                                         color: Colors.white,

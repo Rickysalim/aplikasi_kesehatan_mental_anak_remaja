@@ -1,5 +1,5 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/repository/video_repository_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/video.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -78,13 +78,13 @@ class VideoAdminController extends GetxController {
   void setIsEditVideo(Video video) {
     setEditVideo.value = true;
 
-    titleController.value.text = video.video_title!;
-    descriptionController.value.text = video.video_description!;
+    titleController.value.text = video.videoTitle!;
+    descriptionController.value.text = video.videoDescription!;
 
     dataVideoRequest.value = {
-      "video_id": video.video_id,
-      "video_title": video.video_title,
-      "video_description": video.video_description,
+      "video_id": video.videoId,
+      "video_title": video.videoTitle,
+      "video_description": video.videoDescription,
       "video_url": videoFile.value,
       "video_caption_url": imageFile.value
     };

@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/video.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VideoRepositoryController extends GetxController {
@@ -12,26 +10,21 @@ class VideoRepositoryController extends GetxController {
 
   final videoRepo = FirebaseFirestore.instance.collection('Video');
 
-  final videoRepoWithId = FirebaseFirestore.instance.collection('Video').doc();
-
-Stream<List<Video>> searchVideo(String videoTitle) {
-  if (videoTitle.isEmpty) {
-    return videoRepo
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => Video.fromSnapshot(doc)).toList());
-  } else {
-    return videoRepo
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .where((doc) {
-              String sqlLikePattern = ".*${RegExp.escape(videoTitle)}.*";
-              RegExp pattern = RegExp(sqlLikePattern, caseSensitive: false);
-              return pattern.hasMatch(doc["video_title"]);
-            })
-            .map((doc) => Video.fromSnapshot(doc))
-            .toList());
+  Stream<List<Video>> searchVideo(String videoTitle) {
+    if (videoTitle.isEmpty) {
+      return videoRepo.snapshots().map((snapshot) =>
+          snapshot.docs.map((doc) => Video.fromSnapshot(doc)).toList());
+    } else {
+      return videoRepo.snapshots().map((snapshot) => snapshot.docs
+          .where((doc) {
+            String sqlLikePattern = ".*${RegExp.escape(videoTitle)}.*";
+            RegExp pattern = RegExp(sqlLikePattern, caseSensitive: false);
+            return pattern.hasMatch(doc["video_title"]);
+          })
+          .map((doc) => Video.fromSnapshot(doc))
+          .toList());
+    }
   }
-}
 
   Future<void> editVideo(Map<String, dynamic> data) async {
     try {
@@ -53,20 +46,12 @@ Stream<List<Video>> searchVideo(String videoTitle) {
         await Future.forEach(oldVideoRef.items, (Reference ref) async {
           await ref.delete();
         }).whenComplete(() => {}).catchError((e) {
-          Get.snackbar(
-              "Kesalahan", "Terjadi Kesalahan saat menghapus video: $e",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
+          Get.snackbar("Error", "Error While Update Video");
         });
         await Future.forEach(oldImageRef.items, (Reference ref) async {
           await ref.delete();
         }).whenComplete(() => {}).catchError((e) {
-          Get.snackbar(
-              "Kesalahan", "Terjadi Kesalahan saat menghapus gambar: $e",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
+          Get.snackbar("Error", "Error While Delete Picture");
         });
         final newVideoUrl = await videoRef
             .child(data['video_url'].name)
@@ -85,27 +70,18 @@ Stream<List<Video>> searchVideo(String videoTitle) {
       }
 
       await videoRepo.doc(data['video_id']).update(data).whenComplete(() {
-        Get.snackbar("Berhasil", "Berhasil memperbaharui video",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.green,
-            colorText: Colors.black);
+        Get.snackbar("Success", "Success Update Video");
       }).catchError((e) {
-        Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menghapus data: $e",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
+        Get.snackbar("Error", "Error While Update Video");
       });
     } catch (e) {
-      Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menghapus data: $e",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar("Error", "Error While Update Video");
     }
   }
 
   Future<void> deleteVideo(String id) async {
-    final videoRef = FirebaseStorage.instance.ref('uploads/videos/${id}');
-    final imageRef = FirebaseStorage.instance.ref('uploads/images/${id}');
+    final videoRef = FirebaseStorage.instance.ref('uploads/videos/$id');
+    final imageRef = FirebaseStorage.instance.ref('uploads/images/$id');
     try {
       ListResult oldVideoRef = await videoRef.listAll();
       ListResult oldImageRef = await imageRef.listAll();
@@ -113,41 +89,28 @@ Stream<List<Video>> searchVideo(String videoTitle) {
       await Future.forEach(oldVideoRef.items, (Reference ref) async {
         await ref.delete();
       }).whenComplete(() => {}).catchError((e) {
-        Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menghapus video: $e",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
+        Get.snackbar("Error", "Error While Delete Video");
       });
       await Future.forEach(oldImageRef.items, (Reference ref) async {
         await ref.delete();
       }).whenComplete(() => {}).catchError((e) {
-        Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menghapus gambar: $e",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
+        Get.snackbar("Error", "Error While Update Picture");
       });
 
       await videoRepo.doc(id).delete().whenComplete(() {
-        Get.snackbar("Berhasil", "Berhasil menghapus video",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.green,
-            colorText: Colors.black);
+        Get.snackbar("Success", "Success Delete Video");
       }).catchError((e) {
-        Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menghapus data: $e",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
+        Get.snackbar("Error", "Error While Delete Video");
       });
     } catch (e) {
-      Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menghapus data: $e",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar("Error", "Error While Delete Video");
     }
   }
 
   Future<void> uploadVideo(Map<String, dynamic> data) async {
     try {
+      final videoRepoWithId =
+          FirebaseFirestore.instance.collection('Video').doc();
       data["video_id"] = videoRepoWithId.id;
 
       final videoRef =
@@ -169,21 +132,12 @@ Stream<List<Video>> searchVideo(String videoTitle) {
       data['video_caption_url'] = await imageUrl.ref.getDownloadURL();
 
       await videoRepoWithId.set(data).whenComplete(() {
-        Get.snackbar("Berhasil", "Berhasil Menambah Data Video",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.green,
-            colorText: Colors.black);
+        Get.snackbar("Success", "Success Add Video");
       }).catchError((e) {
-        Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menyimpan data: $e",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
+        Get.snackbar("Error", "Error While Add Video");
       });
-    } on FirebaseException catch (e) {
-      Get.snackbar("Kesalahan", "Terjadi Kesalahan saat menyimpan data: $e",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+    } on FirebaseException {
+      Get.snackbar("Error", "Error While Add Video");
     }
   }
 

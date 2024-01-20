@@ -1,4 +1,3 @@
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/main_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/auth_screen/sign_in_screen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

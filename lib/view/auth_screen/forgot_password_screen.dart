@@ -3,13 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  @override
-  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
-}
+class ForgotPasswordScreen extends StatelessWidget {
+  ForgotPasswordScreen({super.key});
 
-class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
+
 
   Future<void> _resetPassword() async {
     try {
@@ -17,32 +15,31 @@ class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
         await FirebaseAuth.instance
             .sendPasswordResetEmail(email: _emailController.text);
         Get.dialog(AlertDialog(
-          title: Text('Password Reset Email Sent'),
-          content:
-              Text('Check your email for instructions to reset your password.'),
+          title: const Text('Password Reset Email Sent'),
+          content: const Text(
+              'Check your email for instructions to reset your password.'),
           actions: [
             TextButton(
               onPressed: () {
                 Get.to(SignInScreen());
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ));
       } else {
-        Get.dialog(Text('Please fill your email'));
+        Get.dialog(const Text('Please fill your email'));
       }
     } catch (e) {
-      print('Error sending reset email: $e');
       Get.dialog(AlertDialog(
-        title: Text('Error'),
+        title: const Text('Error'),
         content: Text(e.toString()),
         actions: [
           TextButton(
             onPressed: () {
               Get.back();
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ));
@@ -52,16 +49,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Forgot Password',
-          style: TextStyle(color: Colors.black),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(255, 220, 220, 1),
-      ),
-      backgroundColor: Color.fromRGBO(255, 253, 208, 1),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -69,14 +57,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromRGBO(5, 15, 47, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  )),
               onPressed: _resetPassword,
-              child: Text('Reset Password'),
+              child: const Text('Reset Password'),
             ),
           ],
         ),

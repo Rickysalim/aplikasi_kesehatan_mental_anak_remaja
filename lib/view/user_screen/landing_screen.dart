@@ -1,30 +1,30 @@
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/audio_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/controllers/video_controller.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/get_x/guards/user_guards_controller.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Music.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/models/Video.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/music.dart';
+import 'package:aplikasi_kesehatan_mental_anak_remaja/models/video.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/breathing_exercise_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/diagnose_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/music_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/search_music_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/search_video_screen.dart';
 import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/setting_screen.dart';
-import 'package:aplikasi_kesehatan_mental_anak_remaja/view/user_screen/video_watch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LandingScreen extends StatelessWidget {
+  LandingScreen({super.key});
   static const String id = "landing_screen";
 
-  UserGuardsController userGuardsController = Get.put(UserGuardsController());
-  VideoController videoController = Get.put(VideoController());
-  MusicController musicController = Get.put(MusicController());
+  final userGuardsController = Get.put(UserGuardsController());
+  final videoController = Get.put(VideoController());
+  final musicController = Get.put(MusicController());
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -33,12 +33,12 @@ class LandingScreen extends StatelessWidget {
                   Color.fromRGBO(255, 255, 255, 1),
                 ])),
             child: ListView(children: <Widget>[
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                   child: Row(
@@ -50,24 +50,24 @@ class LandingScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Hi',
+                              const Text('Hi',
                                   style: TextStyle(
                                       fontFamily: 'MochiyPopOne',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                       color: Color.fromRGBO(21, 0, 67, 1))),
                               Text(
-                                  '${userGuardsController.user.currentUser!.displayName ?? "Unknown"}',
-                                  style: TextStyle(
+                                  userGuardsController.user.currentUser!.displayName ?? "Unknown",
+                                  style: const TextStyle(
                                       fontFamily: 'MochiyPopOne',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                       color: Color.fromRGBO(21, 0, 67, 1))),
-                              Text("Let's manage your mental ",
+                              const Text("Let's manage your mental ",
                                   style: TextStyle(
                                       fontFamily: 'MochiyPopOne',
                                       color: Color.fromRGBO(21, 0, 67, 1))),
-                              Text('with us!',
+                              const Text('with us!',
                                   style: TextStyle(
                                       fontFamily: 'MochiyPopOne',
                                       color: Color.fromRGBO(21, 0, 67, 1))),
@@ -83,18 +83,18 @@ class LandingScreen extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.topCenter,
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Video Learning',
+                              const Text('Video Learning',
                                   style: TextStyle(
                                       fontFamily: 'OdorMeanChey',
                                       fontWeight: FontWeight.bold)),
                               TextButton(
-                                  onPressed: () => Get.to(SearchVideoScreen()),
-                                  child: Text(
+                                  onPressed: () => Get.to(const SearchVideoScreen()),
+                                  child: const Text(
                                     'See All',
                                     style: TextStyle(
                                         fontFamily: 'OdorMeanChey',
@@ -108,7 +108,7 @@ class LandingScreen extends StatelessWidget {
               SizedBox(
                 height: 200.0,
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: StreamBuilder<List<Video>>(
                     stream: videoController.getAllVideo(),
                     builder: (context, snapshot) {
@@ -119,13 +119,9 @@ class LandingScreen extends StatelessWidget {
                           itemCount: videos!.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: GestureDetector(
-                                onTap: () {
-                                  Get.to(VideoWatchScreen(videos[index]));
-                                  videoController
-                                      .setUrlVideo(videos[index].video_url);
-                                },
+                                onTap: () =>  videoController.setVideo(videos[index]),
                                 child: Container(
                                   width: 150,
                                   decoration: BoxDecoration(
@@ -134,20 +130,18 @@ class LandingScreen extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
                                         videos[index]
-                                            .video_caption_url
+                                            .videoCaptionUrl
                                             .toString(),
                                       ),
                                       onError: (exception, stackTrace) {
                                         // Tampilkan teks jika gambar gagal dimuat
-                                        Container(
-                                          child: Center(
-                                            child: Text("Image Error"),
-                                          ),
+                                        const Center(
+                                          child: Text("Image Error"),
                                         );
                                       },
                                     ),
                                   ),
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment:
@@ -156,8 +150,8 @@ class LandingScreen extends StatelessWidget {
                                       SizedBox(
                                         width: 150,
                                         child: Text(
-                                          videos[index].video_title.toString(),
-                                          style: TextStyle(
+                                          videos[index].videoTitle.toString(),
+                                          style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -178,7 +172,7 @@ class LandingScreen extends StatelessWidget {
                           child: Text(snapshot.error.toString()),
                         );
                       } else {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -192,18 +186,18 @@ class LandingScreen extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.topCenter,
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Relaxing Music',
+                              const Text('Relaxing Music',
                                   style: TextStyle(
                                       fontFamily: 'OdorMeanChey',
                                       fontWeight: FontWeight.bold)),
                               TextButton(
-                                  onPressed: () => Get.to(SearchMusicScreen()),
-                                  child: Text(
+                                  onPressed: () => Get.to(const SearchMusicScreen()),
+                                  child: const Text(
                                     'See All',
                                     style: TextStyle(
                                         fontFamily: 'OdorMeanChey',
@@ -217,7 +211,7 @@ class LandingScreen extends StatelessWidget {
               SizedBox(
                   height: 200.0,
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: StreamBuilder<List<Music>>(
                       stream: musicController.getAllMusic(),
                       builder: (context, snapshot) {
@@ -228,14 +222,14 @@ class LandingScreen extends StatelessWidget {
                               itemCount: music!.length,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Container(
                                         width: 150,
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(music[index]
-                                                .music_cover
+                                                .musicCover
                                                 .toString()),
                                             onError: (exception, stackTrace) {
                                               Center(
@@ -245,17 +239,13 @@ class LandingScreen extends StatelessWidget {
                                             },
                                           ),
                                         ),
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         child: GestureDetector(
                                           onTap: () {
-                                            musicController.setUrlAudio(
-                                                music[index]
-                                                    .music_url
-                                                    .toString());
-                                            Get.to(MusicScreen(music[index]));
+                                            musicController.setAudio(music[index]);
                                           },
                                           child: Text(music[index]
-                                              .music_name
+                                              .musicName
                                               .toString()),
                                         )));
                               });
@@ -264,7 +254,7 @@ class LandingScreen extends StatelessWidget {
                             child: Text(snapshot.error.toString()),
                           );
                         } else {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
@@ -279,14 +269,14 @@ class LandingScreen extends StatelessWidget {
                       height: 250,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage('assets/gif/heart.gif'),
                           )),
                       alignment: Alignment.topLeft,
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      child: Text('Diagnose',
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text('Diagnose',
                           style: TextStyle(
                               fontFamily: 'OdorMeanChey',
                               fontWeight: FontWeight.bold))),
@@ -301,14 +291,14 @@ class LandingScreen extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             fit: BoxFit.cover,
                             image:
                                 AssetImage('assets/gif/breathing_exercise.gif'),
                           )),
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      child: Text('Breathing Exercise',
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text('Breathing Exercise',
                           style: TextStyle(
                               fontFamily: 'OdorMeanChey',
                               fontWeight: FontWeight.bold)),
@@ -322,20 +312,20 @@ class LandingScreen extends StatelessWidget {
                       height: 250,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage('assets/gif/customer-care.gif'),
                           )),
                       alignment: Alignment.topLeft,
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      child: Text('Help',
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text('Settings',
                           style: TextStyle(
                               fontFamily: 'OdorMeanChey',
                               fontWeight: FontWeight.bold))),
                 ),
               ),
-              SizedBox(height: 10)
+              const SizedBox(height: 10)
             ])));
   }
 }

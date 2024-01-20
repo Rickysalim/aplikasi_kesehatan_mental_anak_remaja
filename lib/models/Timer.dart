@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class TimerModel {
   final RxList<ValueChanged<ElapsedTime>> timerListeners =
       RxList(<ValueChanged<ElapsedTime>>[]);
-  final Rx<TextStyle> textStyle = Rx(TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue"));
+  final Rx<TextStyle> textStyle = Rx(const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue"));
   final Rx<Stopwatch> stopwatch = Rx(Stopwatch());
   final RxInt timerMillisecondsRefreshRate = RxInt(30);
 }
