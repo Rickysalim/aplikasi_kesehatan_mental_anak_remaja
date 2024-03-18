@@ -34,7 +34,7 @@ class MusicController extends GetxController {
   Future<void> onClickEvent() async {
     isPlaying.value
         ? await audioPlayer.pause()
-        : await audioPlayer.play(UrlSource(urlAudio.value));
+        : await audioPlayer.play(UrlSource(urlAudio.value ?? ""));
   }
 
   @override

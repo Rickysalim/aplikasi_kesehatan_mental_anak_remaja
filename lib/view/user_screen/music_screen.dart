@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class MusicScreen extends StatelessWidget {
   const MusicScreen(this.music, {super.key});
   
-  final Music? music;
+  final Music music;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class MusicScreen extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        music!.musicCover != null || music!.musicCover != ""
+                        music.musicCover != null || music.musicCover != ""
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.network(
-                                  music!.musicCover.toString(),
+                                  music.musicCover ?? "https://img.freepik.com/free-vector/realistic-music-record-label-disk-mockup_1017-33906.jpg",
                                   width: double.infinity,
                                   height: 350,
                                   fit: BoxFit.cover,
@@ -43,10 +43,10 @@ class MusicScreen extends StatelessWidget {
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
-                                child: Text(music!.musicName.toString()),
+                                child: Text(music.musicName!),
                               ),
                         const SizedBox(height: 10),
-                        Text(music!.musicName.toString()),
+                        Text(music.musicName.toString()),
                         const SizedBox(height: 10),
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
